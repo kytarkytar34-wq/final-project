@@ -1,0 +1,276 @@
+ <!DOCTYPE html>
+ <html lang="lo">
+    <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Noto Sans lao', sans-serif;
+            }
+
+            body {
+                background-color: #F4EBE1;
+                display: flex;
+                justify-content: center;
+                padding: 40px 20px;
+            }
+
+            .bill-container {
+                background: white;
+                width: 100%;
+                max-width: 450px;
+                padding: 40px;
+                border-radius: 20px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .header h2 {
+                color: #D4AF37;
+                font-size: 1.8rem;
+                margin-top: 10px;
+            }
+
+            .info-box {
+                margin-bottom: 20px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 15px;
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .item-list {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .item {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px dashed #ddd;
+                font-size: 12px;
+            }
+
+            .total-amount {
+                text-align: right;
+                font-size: 1.6rem;
+                font-weight: bold;
+                color: #D4AF37;
+                margin-top: 20px;
+            }
+
+            .action-btns {
+                margin-top: 35px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            /* ປັບປຸງສ່ວນຈັດວາງ QR Code ໃຫ້ຢູ່ເຄິ່ງກາງເປະໆ */
+            .qr-box {
+                text-align: center;
+                margin: 25px 0;
+                display: flex;
+                justify-content: center;
+               align-items: center;
+               width: 100%;
+            }
+
+            .qr-box img {
+                display: block;
+                max-width: 180px; /* ປັບຂະໜາດໃຫ້ພໍດີງາມ */
+                height: auto;
+            }
+
+            /* ປັບປຸງກຸ່ມປຸ່ມໃຫ້ສະແດงຕົວໜັງສືໄດ້ເຕັມແຖວ ແລະ ເບິ່ງງ່າຍ */
+            .actions {
+                display: flex;
+                flex-direction: column; /* ຈັດໃຫ້ປຸ່ມລຽງລົງມາລຸ່ມເພື່ອຄວາມເປັນລະບຽບ */
+                gap: 12px;
+                margin-top: 30px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px; /* ໄລຍະຫ່າງລະຫວ່າງ ໄອຄອນ ກັບ ຕົວໜັງສື */
+                transition: 0.2s;
+            }
+            .note-box h5{
+                color: #D4AF37;
+                font-size: 1.8rem;
+                margin-top: 10px;
+                text-align: center;
+                margin: 25px 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+            }
+            
+
+            .btn-print { background-color: #D4AF37; color: white;box-shadow: 0 2px 5px #111111 }
+            .btn-save { background-color: #D4AF37; color: white;box-shadow: 0 2px 5px #111111 }
+            .btn-back { background-color: #64748b; color: white;box-shadow: 0 2px 5px #111111 }
+
+            .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+            @media print {
+                .action-btns {display: none;}
+                .actions {display: none;}
+                body { background: white; padding: 0;}
+                .bill-container { box-shadow: none; max-width: 100%;}
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="bill-container">
+            <div class="header">
+               <i class="fa-solid fa-circle-check" style="font-size: 3.5rem; color: #10b981;"></i>
+                <h2>ໃບບິນຮັບເງິນ</h2>
+            </div>
+
+            <div id="display-info" class="info-box"></div>
+            <div id="display-items" class="item-list"></div>
+            <div id="display-amount" class="total-amount">0 ກີບ</div>
+
+            <div class="note-box">
+                <h5>ຂໍຂອບໃຈ</h5>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-print" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> ພິມໃບບິນ
+                </button>
+
+               <button class="btn btn-save" onclick="window.print()">
+               <i class="fa-solid fa-download"></i> ບັນທຶກໃບບິນ
+               </button>
+               <div class="qr-box">
+                  <img id="qrImg" src="myQr.png" alt="QR Code ສະແກນຊຳລະເງິນ">
+            </div>
+
+            <button class="btn btn-back" onclick="location.href='15.5.2026meo.html'">
+                <i class="fa-solid fa-arrow-left"></i> ກັບຄືນໜ້າຫຼັກ
+            </button>
+            </div>
+        </div>
+
+
+        <script>
+        // ດຶງຂໍ້ມູນການສັ່ງຊື້ມາສະແດງຜົນ
+        const orderData = JSON.parse(localStorage.getItem("myOrder"));
+
+if (orderData) {
+
+    document.getElementById('display-info').innerHTML = `
+        <p style="font-size:1.1rem;color:#ef4444;margin-bottom:8px;">
+            <b>ເລກທີໃບບິນ:</b>
+            ${orderData.billId || '#INV-XXXXXX'}
+        </p>
+
+        <p><b>ວັນທີ:</b> ${orderData.date}</p>
+        <p><b>ຊື່ລູກຄ້າ:</b> ${orderData.name}</p>
+        <p><b>ເບີໂທ:</b> ${orderData.tel}</p>
+        <p><b>ທີ່ຢູ່:</b> ${orderData.loc}</p>
+    `;
+
+    let itemsHtml = orderData.items.map(item => `
+        <div class="item">
+            <span>${item.name}</span>
+            <span>${Number(item.price).toLocaleString()} ກີບ</span>
+        </div>
+    `).join('');
+
+    let subtotal = orderData.items.reduce(
+        (sum, item) => sum + Number(item.price),
+        0
+    );
+
+    let totalDiscount = 0;
+
+    // ຫຼຸດ 5%
+    if (orderData.hasPromoCodeDiscount) {
+        totalDiscount += subtotal * 0.05;
+    }
+
+    const notes = orderData.items
+        .filter(item => item.name.includes("Tester"))
+        .map(item => item.name)
+        .join("<br>");
+
+    itemsHtml += `
+
+        <div class="item"
+             style="color:#64748b;
+                    margin-top:10px;
+                    border-top:1px solid #eee;">
+
+            <span>ຍອດລວມສິນຄ້າ:</span>
+            <span>${subtotal.toLocaleString()} ກີບ</span>
+
+        </div>
+
+        ${notes ? `
+        <div style="
+            margin-top:10px;
+            padding:10px;
+            background:#fff8e1;
+            border-radius:8px;
+            line-height:1.6;
+            font-size:12px;
+        ">
+            <b>📝 ໝາຍເຫດ:</b><br>
+            ${notes}
+        </div>
+        ` : ""}
+
+        <div class="item"
+             style="color:#ef4444;
+                    font-weight:bold;">
+
+            <span>🚫 ສ່ວນຫຼຸດທັງໝົດ:</span>
+
+            <span>
+                -${totalDiscount.toLocaleString()} ກີບ
+            </span>
+
+        </div>
+    `;
+
+    document.getElementById('display-items').innerHTML = itemsHtml;
+
+    document.getElementById('display-amount').innerText =
+        'ຍອດຊຳລະທັງໝົດ: ' +
+        Number(orderData.total).toLocaleString() +
+        ' ກີບ';
+
+} else {
+
+    document.querySelector('.bill-container').innerHTML =
+        "<h2>ບໍ່ພົບຂໍ້ມູນການສັ່ງຊື້</h2>";
+
+}
+        </script>
+    </body>
+ </html>

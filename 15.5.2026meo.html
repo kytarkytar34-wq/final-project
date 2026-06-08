@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="lo">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Perfume luxury - 10 items Store</title>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="happy.css">
+    </head>
+    
+    <body>
+
+        <div class="promotion-box">
+        <p>ກິ່ນທີ່ເປັນເອກະລັກ ທີ່ບົ່ງບອກຕົວຕົນ ເສີມສ້າງພາບລັກທີ່ດີ ແລະ ບຸຄະລິກກະພາບທີ່ມີຄວາມມັ່ນໃຈ ແລະ ສ້າງຄວາມປະທັບໃຈຕໍ່ຄົນອ້ອມຂ້າງໄດ້ຢ່າງງ່າຍດາຍຄົ້ນຫາ </p>
+        </div>
+        <header>
+            
+            <div class="logo"><h1><i class="fa-solid fa-shop"></i> PERFUME LUXURY SHOP</h1></div>
+            <div class="cart-box">
+                <div class="header-right">
+                    <a href="contact.html" class="support-box">
+                        <i class="fa-solid fa-headset"></i>
+                        </a>
+                <div class="cart-box">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="products" id="product-list">
+            </div>
+
+            <div class="checkout">
+                <h2><i class="fa-solid fa-file-pen"></i>ຂໍ້ມູນຕ້ອງການສັ່ງຊື້</h2>
+                <input type="text" id="custname" placeholder="ຊື້ ແລະ ນາມສະກຸນ">
+                <input type="text" id="custTel" placeholder="ເບີໂທລະສັບ">
+                <textarea id="custloc" placeholder="ທີ່ຢູ່ຈັດສົ່ງສິນຄ້າ"></textarea>
+
+               <div class="discount-promo-container" style="display: flex; gap: 10px; margin-bottom: 15px;">
+    <input type="text" id="coupon-input" placeholder="ໃສ່ລະຫັດສ່ວນຫຼຸດ (LAO2024)" style="margin-bottom: 0; flex: 1;">
+    <button onclick="applyCoupon()" style="background: #D4AF37; color: white;box-shadow: 0 2px 5px #111111; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; white-space: nowrap;">
+        ໃຊ້ສ່ວນຫຼຸດ
+    </button>
+</div>
+
+<div class="summary">
+    <p>ລາຍການ: <span id="cart-list-text">ຍັງຫວ່າງເປົ່າ</span></p>
+    <p id="discount-status-text" style="color: #ef4444; font-size: 0.9rem; font-weight: bold; margin: 5px 0; display: none;"></p>
+    <h3>ລວມ: <span id="final-total-text">0 ກີບ</span></h3>
+</div>
+
+                <button class="btn-confirm" onclick="confirmPurchase()">
+                    <i class="fa-solid fa-check-circle"></i> ຢືນຢັນການສັ່ງຊື້ ແລະ ອອກບິນ
+                </button>
+
+                <button class="btn-clear" onclick="resetCart()">ລ້າງກະຕ່າ</button>
+            </div>
+        </div>
+
+        
+            <div id="product-modal" class="p-modal" style="display: none;">
+        <div class="p-modal-content">
+            <span class="p-close" onclick="closeProductModal()">&times;</span>
+            <div class="p-modal-body">
+                <div class="p-modal-left">
+                    <img id="modal-img" src="" alt="Product Image">
+                </div>
+                <div class="p-modal-right">
+                    <h2 id="modal-name">ຊື່ນ້ຳຫອມ</h2>
+                    <p id="modal-desc" style="color: #111111; margin: 10px 0; font-size: 0.95rem; line-height: 1.5;"></p>
+                    <h3 id="modal-price" style="color: #f3005d; margin-bottom: 20px;">0 ກີບ</h3>
+                    
+                    <div class="option-group">
+                        <label><b>📐 ເລືອກຂະໜາດ:</b></label>
+                        <div class="size-options">
+                            <label class="size-btn"><input type="radio" name="p-size" value="100ml" checked onchange="updateModalPrice()"> 100ml (ລາຄາປົກກະຕີ)</label>
+                            <label class="size-btn"><input type="radio" name="p-size" value="50ml" onchange="updateModalPrice()"> 50ml (ຫຼຸດ 30%)</label>
+                        </div>
+                    </div>
+
+                    <div class="option-group" style="margin-top: 15px;">
+                        <label><b>🧪 ຕົວທົດລອງ (Tester):</b></label>
+                        <div class="tester-option">
+                            <label><input type="checkbox" id="p-tester"> ຮັບຫົວເຊື້ອຕົວເທດເຕີຟຣີ 2ml (ຈຳກັດ 1 ຊິ້ນ)  ໝາຍເຫດ ສຳລັບນ້້ຳຫອມຫົວເຊື້ອ tester ຫຼື ຕົວທົດລອງ ຫາກວ່າລູກຄ້າໄດ້ທົດລອງແລ້ວ ຢາກສົ່ງທັງຕົວແທ້ ແລະ ຕົວ ເທດເຕີ້ ແມ່ນໃຫ້ສົ່ງສິນຄ້າຄືນ ກຳນົດສົ່ງຄືນ ບໍ່ໃຫ້ເກີນ 7ວັນ</label>
+                        </div>
+                    </div>
+
+                    <button class="btn-modal-add" onclick="addFromModal()">
+                        <i class="fa-solid fa-cart-plus"></i> ເພີ່ມລົງໃນກະຕ່າ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script src="happy.js"></script>
+    </body>
+</html>

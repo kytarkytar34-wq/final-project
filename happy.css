@@ -1,0 +1,366 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans Lao', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(#F4EBE1, #FAFAFD, #D4AF37);
+    padding: 20px;
+    color: #000000;
+    max-width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1900px;
+    margin: 0 auto 30px;
+    align-items: center;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+    color: #D4AF37;
+    font-size: 1.5rem;
+}
+
+.cart-box {
+    position: relative;
+    font-size: 24px;
+    color: #D4AF37;
+}
+
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: #ef4444;
+    color: rgb(255, 255, 255);
+    padding: 2px 7px;
+    border-radius: 50%;
+    font-size: 11px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 25px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* 1. ປັບປຸງກ່ອງສິນຄ້າ (Card) ເວລາປົກກະຕິ */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px; /* ເພີ່ມຄວາມມົນໃຫ້ຫຼູຫຼາ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* ເງົາບາງໆເວລາຍັງບໍ່ເອົາເມົາໄປໃສ */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    
+    /* 💡 ຈຸດສຳຄັນ: ເຮັດໃຫ້ເວລາເຄື່ອນໄຫວມີຄວາມ Smooth ນຸ່ມນວນ (ໃຊ້ເວລາ 0.3 ວິນາທີ) */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid transparent; 
+}
+
+/* 2. 🔥 ເອັບເຟັກ ເວລາລາກເມົາໄປວາງໃສ່ກ່ອງສິນຄ້າ (Card Hover) */
+.card:hover {
+    transform: translateY(-8px); /* ດັນກ່ອງໃຫ້ລອຍຂຶ້ນເທິງ 8 ພິກເຊລ */
+    box-shadow: 0 12px 24px rgba(214, 187, 111, 0.452); /* ເພີ່ມເງົາໃຫ້ຟູຂຶ້ນ ແລະ ອອກໂທນສີຊົມພູອ່ອນໆຕາມສີຮ້ານ */
+    border-color: #D4AF37; /* ເພີ່ມຂອບສີຊົມພູໃຫ້ເດັ່ນຂຶ້ນມາ */
+}
+
+/* 3. ປັບປຸງຮູບພາບໃນກ່ອງ ໃຫ້ມີການຊູມເຂົ້າໜ້ອຍໜຶ່ງເວລາເມົາວາງ */
+.card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    /* ເຮັດໃຫ້ຮູບ Smooth ເວລາເຄື່ອນໄຫວ */
+    transition: transform 0.3s ease;
+}
+
+/* ເວລາລາກເມົາໃສ່ Card ໃຫ້ຮູບຂະຫຍາຍໃຫຍ່ຂຶ້ນ 5% */
+.card:hover .card-img {
+    transform: scale(1.05);
+}
+/* 1. ປ່ຽນສີປຸ່ມໃນສະພາວະປົກກະຕິ */
+.card button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: white; /* ສີຕົວໜັງສື (ສີຂາວ) */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    /* 🎨 ປ່ຽນເປັນສີດຳເຂັ້ມຕາມທີ່ທ່ານຕ້ອງການ */
+    background-color: #111111; 
+}
+
+/* 2. ເອັບເຟັກເວລາເອົາເມົາໄປວາງໃສ່ປຸ່ມ (Hover) */
+.card button:hover {
+    /* 🎨 ເວລາເມົາວາງ ໃຫ້ມັນປ່ຽນເປັນສີເທົາເຂັ້ມ (#222222) ໜ້ອຍໜຶ່ງ ເພື່ອໃຫ້ລູກຄ້າຮູ້ວ່າມັນກົດໄດ້ */
+    background-color: #222222; 
+    transform: scale(1.02); /* ໃຫ້ປຸ່ມເບ່ງອອກມາໜ້ອຍໜຶ່ງ */
+}
+
+/* 3. ເວລາກົດຄລິກໃສ່ປຸ່ມ */
+.card button:active {
+    transform: scale(0.98); /* ໃຫ້ປຸ່ມຍຸບລົງໄປໜ້ອຍໜຶ່ງ */
+}
+.checkout {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.checkout h2 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+input,
+textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #111111;
+    box-shadow: 0 2px 5px #D4AF37;
+}
+
+.summary {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border: 1px solid #edf2f7;
+}
+
+.btn-confirm {
+    background: #111111;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px #D4AF37;
+}
+
+.btn-clear {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.promotion-box {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(#111111);
+    color: rgb(255, 255, 255);
+    padding: 12px 0;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.promotion-box p {
+    display: inline-block;
+    padding-left: 70%;
+    animation: slideText 10s linear infinite;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.promotion-box:hover p {
+    animation-play-state: paused;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.support-box{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#D4AF37;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.support-box:hover{
+    transform:scale(1.1);
+}
+/* ==================== PRODUCT DETAILS MODAL ==================== */
+.p-modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.p-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 650px;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    animation: fadeInModal 0.3s ease-out;
+}
+
+
+@keyframes fadeInModal {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.p-close {
+    position: absolute;
+    right: 20px; top: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+.p-close:hover { color: #111111; }
+
+.p-modal-body {
+    display: flex;
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.p-modal-left { flex: 1; text-align: center; }
+.p-modal-left img { max-width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px; }
+.p-modal-right { flex: 1.2; display: flex; flex-direction: column; }
+
+.option-group {
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.size-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 5px;
+}
+.size-btn {
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-modal-add {
+    background: #111111;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: auto;
+    font-size: 1rem;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px #D4AF37;
+}
+.btn-modal-add:hover { background: #111111; }
+
+.card{
+    position: relative;
+}
+
+.top1,
+.top2,
+.top3{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    z-index: 10;
+}
+
+.top1{
+    filter: drop-shadow(0 0 10px gold);
+}
+
+.top2{
+    filter: drop-shadow(0 0 8px silver);
+}
+
+.top3{
+    filter: drop-shadow(0 0 8px #cd7f32);
+}
+
+
+
+/* ຮອງຮັບມືຖື */
+@media (max-width: 600px) {
+    .p-modal-body { flex-direction: column; }
+    .p-modal-content { max-height: 90vh; overflow-y: auto; }
+}
+
+@keyframes slideText {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 850px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
